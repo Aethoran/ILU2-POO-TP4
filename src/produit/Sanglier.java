@@ -17,4 +17,8 @@ public class Sanglier extends Produit{
 		return nom + " de " + poid + " " + unite + " chasse par " + chasseur.getNom(); 
 	}
 
+    @Override
+    public int calculerPrix(int prixFixe) {
+        return poid * prixFixe;
+    }
 }

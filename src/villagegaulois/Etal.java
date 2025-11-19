@@ -27,39 +27,43 @@ public class Etal<P extends IProduit> implements IEtal {
 
     @Override
     public int contientProduit(String produit, int quantiteSouhaitee) {
-        int quantiteDisponible = 0;
-        for (P p : produits) {
-            if (p.getNom().equals(produit)) {
-                quantiteDisponible++;
+        int quantiteAVendre = 0;
+        if (nbProduit != 0 && this.produits[0].getNom().equals(produit)) {
+            if (nbProduit >= quantiteSouhaitee) {
+                quantiteAVendre = quantiteSouhaitee;
+            } else {
+                quantiteAVendre = nbProduit;
             }
         }
-        if(quantiteDisponible > quantiteSouhaitee) {
-        	return quantiteSouhaitee;
-        } else {
-        	return quantiteDisponible;
-        }
+        return quantiteAVendre;
     }
 
     @Override
     public int acheterProduit(int quantiteSouhaitee) {
-        if (quantiteSouhaitee <= nbProduit) {
-            nbProduit -= quantiteSouhaitee;
-            return quantiteSouhaitee;
-        } else {
-            int quantiteVendue = nbProduit;
-            nbProduit = 0;
-            return quantiteVendue;
+        int prixPaye = 0;
+        int quantiteAcheter = Math.min(quantiteSouhaitee, nbProduit);
+        for (int i = nbProduit - 1; i >= nbProduit - quantiteAcheter; i--) {
+            prixPaye += produits[i].calculerPrix(prix);
         }
+
+        nbProduit -= quantiteAcheter;
+
+        return prixPaye;
     }
+
 
     @Override
     public String etatEtal() {
-        StringBuilder etat = new StringBuilder(vendeur.getNom() + "vend " + nbProduit + "produits :" + "\n");
-        for (P p : produits) {
-            etat.append(" - " + p.decrireProduit() + "\n");
-        }
-        etat.append("Quantite disponible : " + nbProduit + "\n");
-        etat.append("Prix par produit : " + prix + " sous\n");
-        return etat.toString();
-    }
+    	StringBuilder chaine = new StringBuilder(vendeur.getNom());
+    	if (nbProduit > 0) {
+    		chaine.append(" vend " + nbProduit + " produits :");
+    		for (int i = 0; i < nbProduit; i++) {
+    			chaine.append("\n- " + produits[i].decrireProduit());
+    		}
+    	} else {
+    		chaine.append(" n'a plus rien à vendre.");
+    	}
+    	chaine.append("\n");
+    	return chaine.toString();
+    	}
 }
