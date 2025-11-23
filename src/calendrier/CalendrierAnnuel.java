@@ -1,7 +1,5 @@
 package calendrier;
 
-import java.util.function.BooleanSupplier;
-
 public class CalendrierAnnuel {
 	private Mois[] calendrier;
 	
@@ -18,7 +16,7 @@ public class CalendrierAnnuel {
 		}
 		
 		private boolean estLibre(int jour) {
-			return this.jour[jour-1];
+			return !this.jour[jour-1];
 		}
 		
 		private void reserver(int jour) {
@@ -31,7 +29,7 @@ public class CalendrierAnnuel {
 	}
 	
 	public CalendrierAnnuel() {
-		Mois[] calendrier = new Mois[12] ;
+		calendrier = new Mois[12] ;
 		
 		JourMois[] mois = JourMois.values();
 		for (int i = 0; i<12; i++) {
@@ -39,10 +37,19 @@ public class CalendrierAnnuel {
 		}
 	}
 
-	public boolean estLibre(int mois, int jour) {
-		return calendrier[mois][jour];
+	public boolean estLibre(int jour, int mois) {
+		return calendrier[mois - 1].estLibre(jour);
 	}
 	
+	public boolean reserver(int jour, int mois) {
+		try {
+			calendrier[mois - 1].reserver(jour);
+			return true;
+		} catch (IllegalStateException e) {
+			return false;
+		}
+	}
+
 	
 	
 	
