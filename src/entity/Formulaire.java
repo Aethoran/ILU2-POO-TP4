@@ -4,12 +4,11 @@ public abstract class Formulaire {
 
 	private int jour;
 	private int mois;
-	protected int identificationEntite;
+	private int identificationEntite = 0;
 
 	protected Formulaire(int jour, int mois) {
 		this.jour = jour;
 		this.mois = mois;
-		this.identificationEntite = 0;
 	}
 
 	public int getJour() {

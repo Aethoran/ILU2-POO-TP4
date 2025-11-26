@@ -8,7 +8,6 @@ public class FormulaireRestaurant extends Formulaire {
 		super(jour, mois);
 		this.nbPersonnes = nbPersonnes;
 		this.service = service;
-		this.identificationEntite = 0;
 	}
 
 	public int getNombrePersonnes() {

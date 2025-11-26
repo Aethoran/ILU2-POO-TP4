@@ -2,9 +2,9 @@ package entity;
 
 import calendrier.CalendrierAnnuel;
 
-public class EntiteReservable<T extends Formulaire> {
+public abstract class EntiteReservable<T extends Formulaire> {
 
-	private int numEntite; // 0 : Table; 1 : place spectacle; 2 : chambre
+	private int numEntite;
 	private CalendrierAnnuel calendrier;
 
 	public EntiteReservable(int numEntite) {
@@ -28,28 +28,7 @@ public class EntiteReservable<T extends Formulaire> {
 		return calendrier.estLibre(formulaire.getJour(), formulaire.getMois());
 	}
 
-	public boolean compatible(T formulaire) {
-		return formulaire.getIdentificationEntite() == numEntite;
-	}
+	public abstract boolean compatible(T formulaire);
 
-	public Reservation reserver(T formulaire) {
-		if (!compatible(formulaire)) {
-			return null;
-		} else if (!estLibre(formulaire)) {
-			return null;
-		}
-		calendrier.reserver(formulaire.getJour(), formulaire.getMois());
-		switch (numEntite) {
-			case 0: //Restaurant
-				FormulaireRestaurant fr = (FormulaireRestaurant) formulaire;
-				int table = 1;
-				return new ReservationRestaurant(fr.getJour(), fr.getMois(), fr.getNumService(), table);
-				break;
-			case 1: //Spectacle
-				break;
-			case 2: //Chambre
-				break;
-			}
-		}
-	}
+	public abstract Reservation reserver(T formulaire);
 }

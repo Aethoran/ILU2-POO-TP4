@@ -1,8 +1,8 @@
 package entity;
 
 public class ReservationRestaurant extends Reservation{
-	int service;
-	int table;
+	private int service;
+	private int table;
 
 	public ReservationRestaurant(int jour, int mois, int service, int table){
 		super(jour, mois);
